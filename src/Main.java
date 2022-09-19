@@ -6,16 +6,17 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class Main {
+    static Random rnd = new Random();
     public static void main(String[] args) {
         Random rnd = new Random();
-        String nameclass = "rwfs";
         System.out.println("Укажите абсолютный путь до файла");
         Scanner in = new Scanner(System.in);
         String path = in.nextLine();
-        String code = new String();
+        String code;
         int i;
-        StringBuffer cd = new StringBuffer();
+        StringBuilder cd = new StringBuilder();
 
         try(FileReader fr = new FileReader(path)){
             while((i = fr.read())!=-1){
@@ -26,15 +27,13 @@ public class Main {
             ex.getMessage();
         }
         code = cd.toString();
-        code = code.replaceAll("//(.*)\r","");
-        code = code.replaceAll("/\\*(((.*))\r\n)*(\\*)/","");
-        Pattern p = Pattern.compile("\\s(.*)class(.*)\\{");
 
-        code = code.replaceAll("\\s(.*)class(.*)\\{"," class "+ nameclass + "{");
+        //code = deleteComments(code);
+        //code = renameClass(code, path, nameclass);
 
-        code = code.replaceAll("\n"," ");
-        code = code.replaceAll("\r", "");
-        code = code.replaceAll(" ", "");
+       code = variableCounter(code);
+
+        //code = deleteSpaces(code);
 
 
         try(FileWriter fw = new FileWriter("output.java")){
@@ -44,5 +43,30 @@ public class Main {
         catch (IOException ex){
             ex.getMessage();
         }
+    }
+
+    public static String deleteComments(String code){
+        code = code.replaceAll("//(.*)\r","");
+        code = code.replaceAll("/\\*((.*)\r\n)*(\\*)/","");
+        return code;
+    }
+    public static String renameClass(String code,String path, String nameclass){
+        code = code.replaceAll(path.replaceAll("\\.java",""),nameclass);
+        return code;
+    }
+    public static String deleteSpaces(String code){
+        code = code.replaceAll("//(.*)\r","");
+        code = code.replaceAll("/\\*((.*)\r\n)*(\\*)/","");
+        return code;
+    }
+    public static String variableCounter(String code){
+        Pattern p = Pattern.compile("(([A-z]|\s)*)((= ((.*)&[^;]))|);");
+        Matcher m = p.matcher(code);
+        int counter = 0;
+        StringBuilder sb = new StringBuilder(code);
+        while (m.find()){
+            System.out.println(m.group());
+        }
+        return code;
     }
 }

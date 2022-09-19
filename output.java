@@ -1,1 +1,9 @@
-packagecom.company;importjava.io.FileReader;importjava.io.FileWriter;importjava.io.IOException;classI{publicstaticvoidmain(String[]args){try(FileReaderfr=newFileReader("code.txt");FileWriterfw=newFileWriter("output.txt")){inti;while((i=fr.read())!=-1){if(i==47){if((i=fr.read())!=-1&i==47){while(i!=13){i=fr.read();}}if(i==42){while(i!=-1){if((i=fr.read())==42){i=fr.read();if(i==47){i=fr.read();break;}}}}}fw.append((char)i);}}catch(IOExceptionex){ex.getMessage();}}}
+int g = 0;
+int s;
+boolean g;
+
+LolClass gartwwfghwsWEFA = 136141;
+
+for(int i = -1;i < g; i++){
+do something
+} 
