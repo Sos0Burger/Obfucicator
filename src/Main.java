@@ -60,12 +60,21 @@ public class Main {
         return code;
     }
     public static String variableCounter(String code){
-        Pattern p = Pattern.compile("(([A-z]|\s)*)((= ((.*)&[^;]))|);");
+        Pattern p = Pattern.compile("(.*)\s[a-z]([A-Za-z\\d]*)(;|((\s=\s)|=)(.*);)");
         Matcher m = p.matcher(code);
         int counter = 0;
         StringBuilder sb = new StringBuilder(code);
+        String variable;
         while (m.find()){
             System.out.println(m.group());
+            Pattern pattern = Pattern.compile("\s[a-z]([A-Za-z\\d]*)((\s=)|=|;)");
+            Matcher matcher = pattern.matcher(m.group());
+            if(matcher.find()){
+                System.out.println(matcher.group());
+                variable = matcher.group().replaceAll("=|\s|;","");
+                code = code.replaceAll("\s"+variable, "\s"+(char)rnd.nextInt(97,122));
+                code = code.replaceAll("\\("+variable, "\\("+(char)rnd.nextInt(97,122));
+            }
         }
         return code;
     }

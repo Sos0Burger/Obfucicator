@@ -1,9 +1,9 @@
-int g = 0;
-int s;
-boolean g;
+int s = 0;
+int s=1;
+boolean a;
 
-LolClass gartwwfghwsWEFA = 136141;
+Thread ajigjdgrjkljg = new Thread();
 
-for(int i = -1;i < g; i++){
-do something
-} 
+for(int g = 0;i<14;i++){
+
+        }
