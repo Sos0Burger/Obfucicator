@@ -15,7 +15,7 @@ public class Main {
 
     static ArrayList<String> usedChars = new ArrayList<>();
 
-    static String newClassName = String.valueOf((char)rnd.nextInt(65,91))+String.valueOf((char)rnd.nextInt(65,91)) + String.valueOf((char)rnd.nextInt(97,123));
+    static String newClassName = String.valueOf((char)rnd.nextInt(65,91)+(char)rnd.nextInt(65,91) + (char)rnd.nextInt(97,123));
     public static void main(String[] args) {
         System.out.println("Укажите абсолютный путь до файла");
         Scanner scanner = new Scanner(System.in);
@@ -30,7 +30,7 @@ public class Main {
             }
         }
         catch (IOException ex){
-            ex.getMessage();
+            System.out.println(ex.getMessage());
         }
         code = cd.toString();
 
@@ -65,68 +65,21 @@ public class Main {
     public static String renameClass(String code,String path){
         Pattern p = Pattern.compile("\\\\(\\w*)\\.java");
         Matcher m = p.matcher(path);
-        m.find();
-        mainClassName = m.group().replaceAll("\\\\|\\.java","");
-        code = code.replaceAll(mainClassName, newClassName);
+        if(m.find()) {
+            mainClassName = m.group().replaceAll("\\\\|\\.java", "");
+            code = code.replaceAll(mainClassName, newClassName);
+        }
         return code;
     }
     public static String deleteSpaces(String code){
 
-        code = code.replaceAll("\r|\n","");
+        code = code.replaceAll("[\r\n]","");
         code = code.replaceAll(";(\s*)",";");
         code = code.replaceAll("(\\{)(\s+)","{");
-        code = code.replaceAll("(\\})(\s+)","}");
+        code = code.replaceAll("(})(\s+)","}");
         code = code.replaceAll("\s+=|\s+=\s+|=\s+", "=");
         code = code.replaceAll(", | ,",",");
-        return code;
-    }
-    public static String variableCounter(String code){
-        Pattern p = Pattern.compile("(.*)\s[a-z]([A-Za-z\\d]*)(;|((\s=\s)|=|\s=)(.*);)");
-        Matcher m = p.matcher(code);
-        int counter = 0;
-
-        while(m.find()){
-            counter++;
-        }
-
-        m = p.matcher(code);
-        String randomCharacter;
-        String variable;
-        ArrayList<String> usedChars = new ArrayList<>();
-        usedChars.add(String.valueOf((char) rnd.nextInt(97,122)));
-        while (m.find()){
-            Pattern pattern = Pattern.compile("\\s[a-z]([A-Za-z\\d]*)((\s=)|=|;)");
-            Matcher matcherz = pattern.matcher(m.group());
-            String replacement;
-            randomCharacter = String.valueOf((char)rnd.nextInt(97,122));
-
-            if(matcherz.find()){
-                for(int i = 0; i<usedChars.size();i++){
-                    if(!(usedChars.get(i).equals(randomCharacter))){
-                        continue;
-                    }
-                    if(counter >26){
-                        randomCharacter = String.valueOf((char)rnd.nextInt(97,123)) + String.valueOf((char)rnd.nextInt(97,123));
-                        i = 0;
-                        usedChars.add(randomCharacter);
-                    }
-                    else {
-                        randomCharacter = String.valueOf((char) rnd.nextInt(97, 123));
-                        i = 0;
-                        usedChars.add(randomCharacter);
-                    }
-                }
-                variable = matcherz.group().replaceAll("=|\s|;","");
-
-                Pattern pat = Pattern.compile("\\W"+variable+"\\W");
-                Matcher mat = pat.matcher(code);
-
-                while(mat.find()){
-                    replacement = mat.group().replace(variable,randomCharacter);
-                    code = code.replace(mat.group(),replacement);
-                }
-            }
-        }
+        code = code.replaceAll("=\s", "=");
         return code;
     }
     public static String variableSwap(String code){
@@ -160,7 +113,7 @@ public class Main {
             for(int i = 0;i<usedChars.size();i++){
                 if(randomCharacter.equals(usedChars.get(i))){
                     if(counter>26){
-                        randomCharacter = String.valueOf((char) rnd.nextInt(97,122))+String.valueOf((char)rnd.nextInt(97,123));
+                        randomCharacter = String.valueOf((char) rnd.nextInt(97,122)+(char)rnd.nextInt(97,123));
                     }
                     else{
                         randomCharacter = String.valueOf((char) rnd.nextInt(97,122));
@@ -193,7 +146,7 @@ public class Main {
             for(int i = 0;i<usedChars.size();i++){
                 if(randomCharacter.equals(usedChars.get(i))){
                     if(counter>26){
-                        randomCharacter = String.valueOf((char) rnd.nextInt(97,122))+String.valueOf((char)rnd.nextInt(97,123));
+                        randomCharacter = String.valueOf((char) rnd.nextInt(97,122)+(char)rnd.nextInt(97,123));
                     }
                     else{
                         randomCharacter = String.valueOf((char) rnd.nextInt(97,122));
