@@ -15,7 +15,7 @@ public class Main {
 
     static ArrayList<String> usedChars = new ArrayList<>();
 
-    static String newClassName = String.valueOf((char)rnd.nextInt(65,91)+(char)rnd.nextInt(65,91) + (char)rnd.nextInt(97,123));
+    static String newClassName = Character.toString(rnd.nextInt(65,91))+Character.toString(rnd.nextInt(65,91)) + Character.toString(rnd.nextInt(97,123));
     public static void main(String[] args) {
         System.out.println("Укажите абсолютный путь до файла");
         Scanner scanner = new Scanner(System.in);
@@ -39,7 +39,6 @@ public class Main {
         code = renameClass(code, path);
         code = variableSwap(code);
         code = methodSwap(code);
-        //code = variableCounter(code);
 
         code = deleteSpaces(code);
         code = deleteMultiLineComments(code);
@@ -78,17 +77,20 @@ public class Main {
         code = code.replaceAll("(\\{)(\s+)","{");
         code = code.replaceAll("(})(\s+)","}");
         code = code.replaceAll("\s+=|\s+=\s+|=\s+", "=");
-        code = code.replaceAll(", | ,",",");
+        code = code.replaceAll(",\s|\s,",",");
         code = code.replaceAll("=\s", "=");
+        code = code.replaceAll("\s\\(","(");
+        code = code.replaceAll("\\)\s",")");
         return code;
     }
     public static String variableSwap(String code){
-        Pattern variableInitializers = Pattern.compile("(\\w|>)\s\\b[a-z]([A-z\\d]*)(;| =|=)");
+        Pattern variableInitializers = Pattern.compile("(\\w|>)\s\\b[a-z]([A-z\\d]*)(;|\s=|=)");
         Matcher matcherp = variableInitializers.matcher(code);
         Pattern variableFind = Pattern.compile("\s[a-z]([A-z\\d]*)\\b");
         Matcher variableName;
         boolean isDuplicate;
         ArrayList<String> initializers = new ArrayList<>();
+        usedChars.add("do");
         while(matcherp.find()){
             isDuplicate =false;
 
@@ -107,16 +109,16 @@ public class Main {
             }
         }
 
-        String randomCharacter = String.valueOf((char) rnd.nextInt(97,122));
+        String randomCharacter = Character.toString(rnd.nextInt(97,122));
         usedChars.add(randomCharacter);
         for (String item:initializers) {
             for(int i = 0;i<usedChars.size();i++){
                 if(randomCharacter.equals(usedChars.get(i))){
                     if(counter>26){
-                        randomCharacter = String.valueOf((char) rnd.nextInt(97,122)+(char)rnd.nextInt(97,123));
+                        randomCharacter = Character.toString(rnd.nextInt(97,122))+Character.toString(rnd.nextInt(97,123));
                     }
                     else{
-                        randomCharacter = String.valueOf((char) rnd.nextInt(97,122));
+                        randomCharacter = Character.toString(rnd.nextInt(97,122));
                     }
                     i = 0;
                 }
@@ -140,16 +142,16 @@ public class Main {
                 methodNames.add(methodNameMatcher.group());
             }
         }
-        String randomCharacter = String.valueOf((char) rnd.nextInt(97,122));
+        String randomCharacter = Character.toString(rnd.nextInt(97,122));
         usedChars.add(randomCharacter);
         for (String item:methodNames) {
             for(int i = 0;i<usedChars.size();i++){
                 if(randomCharacter.equals(usedChars.get(i))){
                     if(counter>26){
-                        randomCharacter = String.valueOf((char) rnd.nextInt(97,122)+(char)rnd.nextInt(97,123));
+                        randomCharacter = Character.toString(rnd.nextInt(97,122))+Character.toString(rnd.nextInt(97,123));
                     }
                     else{
-                        randomCharacter = String.valueOf((char) rnd.nextInt(97,122));
+                        randomCharacter = Character.toString(rnd.nextInt(97,122));
                     }
                     i = 0;
                 }
